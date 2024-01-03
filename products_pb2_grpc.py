@@ -75,7 +75,7 @@ class ProductService(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.unary_unary(request, target, '/products.ProductService/PlaceOrder',
+        return grpc.experimental.unary_unary(request, target, '/products.ProductService/PlaceOrder',
             products__pb2.OrderRequest.SerializeToString,
             products__pb2.OrderResponse.FromString,
             options, channel_credentials,
@@ -92,7 +92,7 @@ class ProductService(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.unary_unary(request, target, '/products.ProductService/UpdateOrder',
+        return grpc.experimental.unary_unary(request, target, '/products.ProductService/UpdateOrder',
             products__pb2.OrderRequest.SerializeToString,
             products__pb2.OrderResponse.FromString,
             options, channel_credentials,

@@ -3,13 +3,15 @@ syntax = "proto3";
 package products;
 
 message OrderRequest {
-  string product_id = 1;
-  int32 quantity = 2;
+  string order_id = 1;
+  string product_id = 2;
+  int32 quantity = 3;
   // Add any other fields as needed
 }
 
 message OrderResponse {
   string message = 1;
+  string order_id = 2;
   // Add any other fields as needed
 }
 

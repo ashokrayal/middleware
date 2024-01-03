@@ -14,7 +14,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0eproducts.proto\x12\x08products\"4\n\x0cOrderRequest\x12\x12\n\nproduct_id\x18\x01 \x01(\t\x12\x10\n\x08quantity\x18\x02 \x01(\x05\" \n\rOrderResponse\x12\x0f\n\x07message\x18\x01 \x01(\t2\x8f\x01\n\x0eProductService\x12=\n\nPlaceOrder\x12\x16.products.OrderRequest\x1a\x17.products.OrderResponse\x12>\n\x0bUpdateOrder\x12\x16.products.OrderRequest\x1a\x17.products.OrderResponseb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0eproducts.proto\x12\x08products\"F\n\x0cOrderRequest\x12\x10\n\x08order_id\x18\x01 \x01(\t\x12\x12\n\nproduct_id\x18\x02 \x01(\t\x12\x10\n\x08quantity\x18\x03 \x01(\x05\"2\n\rOrderResponse\x12\x0f\n\x07message\x18\x01 \x01(\t\x12\x10\n\x08order_id\x18\x02 \x01(\t2\x8f\x01\n\x0eProductService\x12=\n\nPlaceOrder\x12\x16.products.OrderRequest\x1a\x17.products.OrderResponse\x12>\n\x0bUpdateOrder\x12\x16.products.OrderRequest\x1a\x17.products.OrderResponseb\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -22,9 +22,9 @@ _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'products_pb2', _globals)
 if _descriptor._USE_C_DESCRIPTORS == False:
   DESCRIPTOR._options = None
   _globals['_ORDERREQUEST']._serialized_start=28
-  _globals['_ORDERREQUEST']._serialized_end=80
-  _globals['_ORDERRESPONSE']._serialized_start=82
-  _globals['_ORDERRESPONSE']._serialized_end=114
-  _globals['_PRODUCTSERVICE']._serialized_start=117
-  _globals['_PRODUCTSERVICE']._serialized_end=260
+  _globals['_ORDERREQUEST']._serialized_end=98
+  _globals['_ORDERRESPONSE']._serialized_start=100
+  _globals['_ORDERRESPONSE']._serialized_end=150
+  _globals['_PRODUCTSERVICE']._serialized_start=153
+  _globals['_PRODUCTSERVICE']._serialized_end=296
 # @@protoc_insertion_point(module_scope)

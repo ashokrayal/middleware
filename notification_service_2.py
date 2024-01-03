@@ -1,16 +1,16 @@
+# Import necessary libraries
 import pika
-import logging  # Added logging module
+import logging
 
 def consume_events():
-    logging.basicConfig(level=logging.INFO)  # Added logging configuration
-    # Implement Rabbit MQ event consumption logic for order creation and updating
+    logging.basicConfig(level=logging.INFO)
     connection = pika.BlockingConnection(pika.ConnectionParameters('localhost'))
     channel = connection.channel()
-    channel.exchange_declare(exchange='orders', exchange_type='topic')
-    result = channel.queue_declare(queue='order_status_updates', exclusive=False)
+    channel.exchange_declare(exchange='order_updates_topic', exchange_type='topic')  # Topic exchange for selective events
+    result = channel.queue_declare(queue='order_updates_queue_2', exclusive=False)
     queue_name = result.method.queue
     logging.info(f"Notification Service 2 connected to RabbitMQ. Queue: {queue_name}")
-    channel.queue_bind(exchange='orders', queue=queue_name, routing_key='order.updated')
+    channel.queue_bind(exchange='order_updates_topic', queue=queue_name, routing_key='order.*')  # Bind to topic exchange
 
     def callback(ch, method, properties, body):
         logging.info(f"Notification Service 2 received: {body}")

@@ -1,0 +1,24 @@
+[
+    {
+      "id": "1",
+      "color": "Red",
+      "description": "Product A",
+      "price": 20.0,
+      "quantity": 10
+    },
+    {
+      "id": "2",
+      "color": "Blue",
+      "description": "Product B",
+      "price": 30.0,
+      "quantity": 5
+    },
+    {
+      "id": "3",
+      "color": "Green",
+      "description": "Product C",
+      "price": 25.0,
+      "quantity": 8
+    }
+  ]
+  
