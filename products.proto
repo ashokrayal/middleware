@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package products;
+
+message OrderRequest {
+  string product_id = 1;
+  int32 quantity = 2;
+  // Add any other fields as needed
+}
+
+message OrderResponse {
+  string message = 1;
+  // Add any other fields as needed
+}
+
+service ProductService {
+  rpc PlaceOrder(OrderRequest) returns (OrderResponse);
+  rpc UpdateOrder(OrderRequest) returns (OrderResponse);
+}

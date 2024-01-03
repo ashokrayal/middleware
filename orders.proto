@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package orders;
+
+message OrderRequest {
+  string order_id = 1;
+  // Add any other fields as needed
+}
+
+message OrderResponse {
+  string message = 1;
+  // Add any other fields as needed
+}
+
+service OrderService {
+  rpc PlaceOrder(OrderRequest) returns (OrderResponse);
+  rpc UpdateOrder(OrderRequest) returns (OrderResponse);
+}
