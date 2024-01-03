@@ -7,7 +7,7 @@ def consume_events():
     connection = pika.BlockingConnection(pika.ConnectionParameters('localhost'))
     channel = connection.channel()
     channel.exchange_declare(exchange='orders', exchange_type='topic')
-    result = channel.queue_declare(queue='inventory_updates', exclusive=True)
+    result = channel.queue_declare(queue='order_status_updates', exclusive=False)
     queue_name = result.method.queue
     logging.info(f"Notification Service 2 connected to RabbitMQ. Queue: {queue_name}")
     channel.queue_bind(exchange='orders', queue=queue_name, routing_key='order.updated')
