@@ -58,12 +58,15 @@ Install RabbitMQ following the official installation guide: [RabbitMQ Installati
 
 Clone the repository containing your solution:
 
-```bash
+```
 git clone <repository_url>
 cd <repository_folder>
+```
 
 Install the required Python dependencies:
+```
 pip install -r requirements.txt
+```
 
 Start the RabbitMQ server.
 
@@ -71,17 +74,45 @@ Usage
 To use the system, follow these steps:
 
 Start Product Service:
+```
 python product_service.py
+```
 
 Start Order Service:
+```
 python order_service.py
+```
 
 Start Notification Service 1:
+```
 python notification_service_1.py
+```
 
 Start Notification Service 2:
+```
 python notification_service_2.py
+```
 
-Run gRPC Client:
+Run  gRPC Client:
+```
 python grpc_client.py
+```
+
+## Assumptions
+
+1. **Static Product and Order Data:**
+   - The solution assumes that product and order data are static and loaded from predefined JSON files. In a real-world scenario, a database would be used to store and retrieve dynamic product and order information.
+
+2. **Simplified Order Processing:**
+   - The order processing logic in the Order Service and Product Service is simplified for demonstration purposes. In a production environment, more complex and secure order processing, including validation, payment handling, and database updates, would be implemented.
+
+3. **Single RabbitMQ Server:**
+   - The implementation assumes a single RabbitMQ server for simplicity. In a distributed and production environment, considerations for RabbitMQ clustering and high availability would be necessary.
+
+4. **Logging for Notification Services:**
+   - The Notification Services log the received events for demonstration purposes. In a real-world scenario, a more robust logging or monitoring solution would be employed to ensure proper tracking of events and potential issues.
+
+5. **gRPC for Internal Communication:**
+   - The solution uses gRPC for communication between services. While gRPC provides efficient and reliable communication, the assumption is that the internal network between services is secure. In a production environment, additional security measures may be required, such as encryption and authentication.
+
 
