@@ -1,4 +1,4 @@
-# Import necessary libraries
+# notification_service_1.py
 import pika
 import logging
 
@@ -6,11 +6,11 @@ def consume_events():
     logging.basicConfig(level=logging.INFO)
     connection = pika.BlockingConnection(pika.ConnectionParameters('localhost'))
     channel = connection.channel()
-    channel.exchange_declare(exchange='order_updates_fanout', exchange_type='fanout')  # Fanout exchange for broadcasting events
-    result = channel.queue_declare(queue='order_updates_queue_1', exclusive=False)
+    channel.exchange_declare(exchange='FanoutExchange', exchange_type='fanout')  # Fanout exchange for broadcasting events
+    result = channel.queue_declare(queue='OrderCreationQueue', exclusive=False)
     queue_name = result.method.queue
     logging.info(f"Notification Service 1 connected to RabbitMQ. Queue: {queue_name}")
-    channel.queue_bind(exchange='order_updates_fanout', queue=queue_name)  # Bind to fanout exchange
+    channel.queue_bind(exchange='FanoutExchange', queue=queue_name)  # Bind to fanout exchange
 
     def callback(ch, method, properties, body):
         logging.info(f"Notification Service 1 received: {body}")

@@ -1,11 +1,10 @@
-# Import necessary libraries
+# product_service.py
 import grpc
 from concurrent import futures
 import json
 import products_pb2
 import products_pb2_grpc
 import logging
-import pika
 
 # Import the generated gRPC order service module
 import orders_pb2
@@ -13,19 +12,9 @@ import orders_pb2_grpc
 
 class ProductService(products_pb2_grpc.ProductServiceServicer):
     def __init__(self):
-        self.rabbitmq_channel = self.setup_rabbitmq()
         self.inventory = self.load_inventory()
         self.order_counter = 1
         logging.info("Product Service initialized")
-
-    def setup_rabbitmq(self):
-        connection = pika.BlockingConnection(pika.ConnectionParameters('localhost'))
-        channel = connection.channel()
-        channel.exchange_declare(exchange='order_updates_fanout', exchange_type='fanout')
-        return channel
-
-    def send_message_to_rabbitmq(self, exchange_name, message):
-        self.rabbitmq_channel.basic_publish(exchange=exchange_name, routing_key='', body=message)
 
     def load_inventory(self):
         with open('inventory.json', 'r') as file:
@@ -62,11 +51,9 @@ class ProductService(products_pb2_grpc.ProductServiceServicer):
             # Update inventory
             self.update_inventory(product_id, quantity)
 
-            # Generate order ID and publish message to RabbitMQ
+            # Generate order ID
             order_id = f"ORDER{self.order_counter}"
             self.order_counter += 1
-            self.send_message_to_rabbitmq('order_updates_fanout', f"Order placed: {order_id}")
-
             response.order_id = order_id
         else:
             response = products_pb2.OrderResponse(message=f"Error: Product {product_id} not available in sufficient quantity.")
@@ -97,9 +84,6 @@ class ProductService(products_pb2_grpc.ProductServiceServicer):
 
             # Update inventory
             self.update_inventory(product_id, quantity)
-
-            # Publish message to RabbitMQ
-            self.send_message_to_rabbitmq('order_updates_fanout', f"Order updated: {order_id}")
         else:
             response = products_pb2.OrderResponse(message=f"Error: Product {product_id} not available in sufficient quantity for updating order.")
 
