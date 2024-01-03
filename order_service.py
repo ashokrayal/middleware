@@ -8,6 +8,8 @@ import pika
 import json
 
 class OrderService(orders_pb2_grpc.OrderServiceServicer):
+    order_counter = 1  # Class variable to keep track of the order counter
+
     def __init__(self):
         self.rabbitmq_channel_fanout = self.setup_rabbitmq_fanout()
         self.rabbitmq_channel_topic = self.setup_rabbitmq_topic()
@@ -17,13 +19,13 @@ class OrderService(orders_pb2_grpc.OrderServiceServicer):
     def setup_rabbitmq_fanout(self):
         connection = pika.BlockingConnection(pika.ConnectionParameters('localhost'))
         channel = connection.channel()
-        channel.exchange_declare(exchange='FanoutExchange', exchange_type='fanout')
+        channel.exchange_declare(exchange='FanoutExchange', exchange_type='fanout')  # Fanout exchange for broadcasting events
         return channel
 
     def setup_rabbitmq_topic(self):
         connection = pika.BlockingConnection(pika.ConnectionParameters('localhost'))
         channel = connection.channel()
-        channel.exchange_declare(exchange='TopicExchange', exchange_type='topic')
+        channel.exchange_declare(exchange='TopicExchange', exchange_type='topic')  # Topic exchange for selective events
         return channel
 
     def send_message_to_rabbitmq_fanout(self, message):
@@ -56,13 +58,16 @@ class OrderService(orders_pb2_grpc.OrderServiceServicer):
                 break
 
         if product_found:
-            response = orders_pb2.OrderResponse(message=f"Order placed successfully for product {product_id} with quantity {quantity}. Order processing initiated.")
+            order_id = f"ORDER{OrderService.order_counter}"  # Use the class variable for the order counter
+            OrderService.order_counter += 1  # Increment the order counter
+
+            response = orders_pb2.OrderResponse(message=f"Order placed successfully for product {product_id} with quantity {quantity}. Order ID: {order_id}. Order processing initiated.")
 
             # Update inventory
             self.update_inventory(product_id, quantity)
 
             # Publish message to RabbitMQ (fanout exchange)
-            self.send_message_to_rabbitmq_fanout(f"Order placed: Product ID: {product_id}, Quantity: {quantity}")
+            self.send_message_to_rabbitmq_fanout(f"Order placed: Order ID: {order_id}, Product ID: {product_id}, Quantity: {quantity}")
         else:
             response = orders_pb2.OrderResponse(message=f"Error: Product {product_id} not available in sufficient quantity.")
 
@@ -90,7 +95,7 @@ class OrderService(orders_pb2_grpc.OrderServiceServicer):
             # Publish message to RabbitMQ (topic exchange)
             self.send_message_to_rabbitmq_topic(f"Order updated: Order ID: {order_id}, Product ID: {product_id}, Quantity: {quantity}")
         else:
-            response = orders_pb2.OrderResponse(message=f"Error: Product {product_id} not available in sufficient quantity for updating order.")
+            response = orders_pb2.OrderResponse(message=f"Error: Product {product_id} not available in sufficient quantity for updating order {order_id}.")
 
         return response
 
