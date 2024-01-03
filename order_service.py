@@ -1,14 +1,14 @@
-# order_service.py
-
 import grpc
 from concurrent import futures
 import orders_pb2
 import orders_pb2_grpc
-import pika
+import logging  # Added logging module
 
 class OrderService(orders_pb2_grpc.OrderServiceServicer):
     def PlaceOrder(self, request, context):
         order_id = request.order_id
+
+        logging.info(f"Received gRPC request: PlaceOrder - Order ID: {order_id}")
 
         # Dummy logic: Process the order
         # In a real system, this would involve more complex logic, like order validation, payment processing, etc.
@@ -17,6 +17,8 @@ class OrderService(orders_pb2_grpc.OrderServiceServicer):
 
     def UpdateOrder(self, request, context):
         order_id = request.order_id
+
+        logging.info(f"Received gRPC request: UpdateOrder - Order ID: {order_id}")
 
         # Dummy logic: Check if the order exists
         # In a real system, this would involve querying a database.
@@ -30,10 +32,12 @@ class OrderService(orders_pb2_grpc.OrderServiceServicer):
         return response
 
 def serve():
+    logging.basicConfig(level=logging.INFO)  # Added logging configuration
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
     orders_pb2_grpc.add_OrderServiceServicer_to_server(OrderService(), server)
     server.add_insecure_port('[::]:50052')
     server.start()
+    logging.info("Order Service started and waiting for requests...")
     server.wait_for_termination()
 
 if __name__ == '__main__':
