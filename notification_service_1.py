@@ -6,9 +6,10 @@ def consume_events():
     # Implement Rabbit MQ event consumption logic for order creation
     connection = pika.BlockingConnection(pika.ConnectionParameters('localhost'))
     channel = connection.channel()
-    channel.exchange_declare(exchange='orders', exchange_type='fanout')
-    result = channel.queue_declare(queue='', exclusive=True)
+    channel.exchange_declare(exchange='orders', exchange_type='topic')  # Adjust the exchange_type
+    result = channel.queue_declare(queue='order_status_updates', exclusive=True)
     queue_name = result.method.queue
+    print(queue_name)
     channel.queue_bind(exchange='orders', queue=queue_name)
 
     def callback(ch, method, properties, body):

@@ -31,18 +31,18 @@ class ProductService(products_pb2_grpc.ProductServiceServicer):
         return response
 
     def UpdateOrder(self, request, context):
-        order_id = request.order_id
+            product_id = request.product_id  # Corrected field name
 
-        # Dummy logic: Check if the order exists
-        # In a real system, this would involve querying a database.
-        if order_id.startswith("ORDER"):
-            # Dummy logic: Update the order status
-            # In a real system, this would involve more complex logic, like updating a database.
-            response = products_pb2.OrderResponse(message=f"Order {order_id} updated successfully. Order status changed.")
-        else:
-            response = products_pb2.OrderResponse(message=f"Error: Order {order_id} not found.")
+            # Dummy logic: Check if the order exists
+            # In a real system, this would involve querying a database.
+            if product_id.startswith("ORDER"):
+                # Dummy logic: Update the order status
+                # In a real system, this would involve more complex logic, like updating a database.
+                response = products_pb2.OrderResponse(message=f"Order updated successfully for product ID: {product_id}")
+            else:
+                response = products_pb2.OrderResponse(message=f"Error: Product {product_id} not found.")
 
-        return response
+            return response
 
 def serve():
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))

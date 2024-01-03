@@ -7,8 +7,9 @@ def consume_events():
     connection = pika.BlockingConnection(pika.ConnectionParameters('localhost'))
     channel = connection.channel()
     channel.exchange_declare(exchange='orders', exchange_type='topic')
-    result = channel.queue_declare(queue='', exclusive=True)
+    result = channel.queue_declare(queue='inventory_updates', exclusive=True)
     queue_name = result.method.queue
+    print(queue_name)
     channel.queue_bind(exchange='orders', queue=queue_name, routing_key='order.updated')
 
     def callback(ch, method, properties, body):
