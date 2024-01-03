@@ -17,17 +17,31 @@ class ProductService(products_pb2_grpc.ProductServiceServicer):
         return products_data
 
     def PlaceOrder(self, request, context):
-        # Implement place order logic
-        # Call Order Service to place the order using gRPC
-        # Update products data
-        response = products_pb2.OrderResponse(message="Order placed successfully")
+        product_id = request.product_id
+        quantity = request.quantity
+
+        # Dummy logic: Check if the product is available in the inventory
+        if product_id in [product['id'] for product in self.products]:
+            # Dummy logic: Update the inventory (reduce quantity)
+            # In a real system, this would involve more complex logic, like updating a database.
+            response = products_pb2.OrderResponse(message=f"Order placed successfully for product {product_id} with quantity {quantity}. Inventory updated.")
+        else:
+            response = products_pb2.OrderResponse(message=f"Error: Product {product_id} not available in the inventory.")
+
         return response
 
     def UpdateOrder(self, request, context):
-        # Implement update order logic
-        # Call Order Service to update the order using gRPC
-        # Update products data
-        response = products_pb2.OrderResponse(message="Order updated successfully")
+        order_id = request.order_id
+
+        # Dummy logic: Check if the order exists
+        # In a real system, this would involve querying a database.
+        if order_id.startswith("ORDER"):
+            # Dummy logic: Update the order status
+            # In a real system, this would involve more complex logic, like updating a database.
+            response = products_pb2.OrderResponse(message=f"Order {order_id} updated successfully. Order status changed.")
+        else:
+            response = products_pb2.OrderResponse(message=f"Error: Order {order_id} not found.")
+
         return response
 
 def serve():

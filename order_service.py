@@ -8,26 +8,26 @@ import pika
 
 class OrderService(orders_pb2_grpc.OrderServiceServicer):
     def PlaceOrder(self, request, context):
-        # Implement place order logic
-        # Publish events for order creation using Rabbit MQ fanout exchange
-        self.publish_event('order.created', request.order_id)
-        response = orders_pb2.OrderResponse(message="Order placed successfully")
+        order_id = request.order_id
+
+        # Dummy logic: Process the order
+        # In a real system, this would involve more complex logic, like order validation, payment processing, etc.
+        response = orders_pb2.OrderResponse(message=f"Order {order_id} placed successfully. Order processing initiated.")
         return response
 
     def UpdateOrder(self, request, context):
-        # Implement update order logic
-        # Publish events for order updating using Rabbit MQ topic exchange
-        self.publish_event('order.updated', request.order_id)
-        response = orders_pb2.OrderResponse(message="Order updated successfully")
-        return response
+        order_id = request.order_id
 
-    def publish_event(self, event_type, order_id):
-        # Implement Rabbit MQ event publishing logic
-        connection = pika.BlockingConnection(pika.ConnectionParameters('localhost'))
-        channel = connection.channel()
-        channel.exchange_declare(exchange='orders', exchange_type='fanout')
-        channel.basic_publish(exchange='orders', routing_key='', body=f'{event_type} - {order_id}')
-        connection.close()
+        # Dummy logic: Check if the order exists
+        # In a real system, this would involve querying a database.
+        if order_id.startswith("ORDER"):
+            # Dummy logic: Update the order status
+            # In a real system, this would involve more complex logic, like updating a database.
+            response = orders_pb2.OrderResponse(message=f"Order {order_id} updated successfully. Order status changed.")
+        else:
+            response = orders_pb2.OrderResponse(message=f"Error: Order {order_id} not found.")
+
+        return response
 
 def serve():
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
