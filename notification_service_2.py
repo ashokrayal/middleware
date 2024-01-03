@@ -3,6 +3,16 @@ import pika
 import logging
 
 def consume_events():
+    """Consume events from RabbitMQ topic exchange.
+
+    Connects to RabbitMQ topic exchange, binds to a queue, and consumes events selectively.
+
+    Raises:
+        Exception: If an error occurs during connection or event consumption.
+
+    Returns:
+        None
+    """
     logging.basicConfig(level=logging.INFO)
     connection = pika.BlockingConnection(pika.ConnectionParameters('localhost'))
     channel = connection.channel()
@@ -13,6 +23,7 @@ def consume_events():
     channel.queue_bind(exchange='TopicExchange', queue=queue_name, routing_key='order.update')  # Bind to topic exchange
 
     def callback(ch, method, properties, body):
+        """Callback function for handling received events."""
         logging.info(f"Notification Service 2 received: {body}")
 
     channel.basic_consume(queue=queue_name, on_message_callback=callback, auto_ack=True)
