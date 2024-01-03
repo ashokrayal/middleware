@@ -4,21 +4,21 @@
       "color": "Red",
       "description": "Product A",
       "price": 20.0,
-      "quantity": 10
+      "quantity": 1000
     },
     {
       "id": "2",
       "color": "Blue",
       "description": "Product B",
       "price": 30.0,
-      "quantity": 5
+      "quantity": 500
     },
     {
       "id": "3",
       "color": "Green",
       "description": "Product C",
       "price": 25.0,
-      "quantity": 8
+      "quantity": 800
     }
   ]
   

@@ -25,7 +25,7 @@ def run():
         product_stub = products_pb2_grpc.ProductServiceStub(product_channel)
 
         # Place an order with a static order ID
-        place_order_request = products_pb2.OrderRequest(product_id='1', quantity=2)
+        place_order_request = products_pb2.OrderRequest(product_id='1', quantity=5)
         place_order_response = product_stub.PlaceOrder(place_order_request)
         logger.info("Product Service Response (Place Order): %s", place_order_response.message)
         

@@ -21,7 +21,7 @@ def consume_events():
     queue_name = result.method.queue
     logging.info(f"Notification Service 2 connected to RabbitMQ. Queue: {queue_name}")
     channel.queue_bind(exchange='TopicExchange', queue=queue_name, routing_key='order.update')  # Bind to topic exchange
-
+    channel.queue_bind(exchange='FanoutExchange', queue=queue_name, routing_key='order.update')
     def callback(ch, method, properties, body):
         """Callback function for handling received events."""
         logging.info(f"Notification Service 2 received: {body}")
