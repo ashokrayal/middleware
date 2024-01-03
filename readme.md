@@ -115,9 +115,4 @@ python grpc_client.py
 5. **gRPC for Internal Communication:**
    - The solution uses gRPC for communication between services. While gRPC provides efficient and reliable communication, the assumption is that the internal network between services is secure. In a production environment, additional security measures may be required, such as encryption and authentication.
 
-Start Notification Service 2:
-python notification_service_2.py
-
-Run gRPC Client:
-python grpc_client.py
 
