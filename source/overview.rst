@@ -1,0 +1,130 @@
+Overview
+=========
+
+
+Problem Statement
+~~~~~~~~~~~~~~~~~~~~
+
+The project addresses the challenge of designing and implementing a system for managing orders, products, and notifications in a distributed environment. The key aspects of the problem statement include:
+
+1. **Product Service:**
+    - Responsible for managing products and inventory.
+    - Exposes gRPC endpoints to facilitate placing and updating orders.
+
+2. **Order Service:**
+    - Processes order-related requests received from the Product Service.
+    - Generates order events and publishes them to RabbitMQ using both fanout and topic exchanges.
+
+3. **Notification Services:**
+    - Notification Service 1:
+        - Listens for order creation events broadcasted on the fanout exchange.
+        - Connects to RabbitMQ to consume these events and logs them.
+    - Notification Service 2:
+        - Listens for both order creation and update events based on a topic exchange.
+        - Connects to RabbitMQ to consume these events and logs them.
+
+The problem is focused on building a reliable, scalable, and asynchronous system that ensures seamless communication between services, real-time updates, and proper handling of events.
+
+Solution
+~~~~~~~~~~~~
+
+The solution involves creating three main components:
+
+1. **Product Service:**
+    - Manages products and inventory.
+    - Utilizes gRPC for communication with other services.
+    - Publishes order events to RabbitMQ.
+
+2. **Order Service:**
+    - Processes order-related requests from the Product Service.
+    - Publishes order events to RabbitMQ using fanout and topic exchanges.
+
+3. **Notification Services:**
+    - Notification Service 1:
+        - Listens for order creation events on the fanout exchange.
+        - Consumes events from RabbitMQ and logs them.
+    - Notification Service 2:
+        - Listens for both order creation and update events on the topic exchange.
+        - Consumes events from RabbitMQ and logs them.
+
+The solution leverages gRPC for communication efficiency and RabbitMQ for distributed event-driven architecture.
+
+
+Prerequisites
+---------------
+
+**Python Installation:**
+Ensure that Python 3 is installed on your system.
+
+
+**RabbitMQ Installation:**
+Install RabbitMQ following the official installation guide: `RabbitMQ Installation Guide <https://www.rabbitmq.com/download.html>`_
+
+**Git Setup**
+
+Clone the repository containing your solution:
+
+.. code-block:: bash
+
+   git clone <repository_url>
+   cd <repository_folder>
+
+Install the required Python dependencies:
+
+.. code-block:: bash
+
+   pip install -r requirements.txt
+
+
+Start the RabbitMQ server.
+
+
+
+Usage
+-----
+
+
+To use the system, follow these steps:
+
+1. **Start Product Service:**
+
+    ```bash
+    python product_service.py
+    ```
+
+2. **Start Order Service:**
+
+    ```bash
+    python order_service.py
+    ```
+
+3. **Start Notification Service 1:**
+
+    ```bash
+    python notification_service_1.py
+    ```
+
+4. **Start Notification Service 2:**
+
+    ```bash
+    python notification_service_2.py
+    ```
+
+5. **Run gRPC Client:**
+
+    ```bash
+    python grpc_client.py
+    ```
+
+
+
+
+API Documentation
+-----------------
+
+.. toctree::
+   :maxdepth: 2
+   :caption: API Documentation:
+
+   modules
+
