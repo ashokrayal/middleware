@@ -116,3 +116,7 @@ python grpc_client.py
    - The solution uses gRPC for communication between services. While gRPC provides efficient and reliable communication, the assumption is that the internal network between services is secure. In a production environment, additional security measures may be required, such as encryption and authentication.
 
 
+
+
+https://github.com/ashokrayal/middleware/assets/26453959/75e318c5-a079-4305-9958-5d1b74893bc3
+
